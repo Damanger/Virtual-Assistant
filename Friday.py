@@ -7,6 +7,7 @@ import pywhatkit
 import datetime
 import webbrowser
 import subprocess
+import platform
 
 listener = sr.Recognizer()
 
@@ -68,13 +69,26 @@ def run_friday():
             # Tell a random joke
             talk(pyjokes.get_joke())
         elif command.startswith('open'):
-            # Open an application on the Mac based on the user's request
             app_name = command.replace('open', '').strip()
             talk(f"Opening {app_name}")
-            try:
-                subprocess.Popen(['open', '-a', app_name])  # Try to open the app using subprocess
-            except FileNotFoundError:
-                talk(f"Sorry, I couldn't find the app: {app_name}")
+
+            if platform.system() == 'Darwin':  # macOS
+                try:
+                    subprocess.Popen(['open', '-a', app_name])
+                except FileNotFoundError:
+                    talk(f"Sorry, I couldn't find the app: {app_name}")
+            elif platform.system() == 'Windows':
+                try:
+                    subprocess.Popen(['start', app_name])
+                except FileNotFoundError:
+                    talk(f"Sorry, I couldn't find the app: {app_name}")
+            elif platform.system() == 'Linux':
+                try:
+                    subprocess.Popen(['xdg-open', app_name])
+                except FileNotFoundError:
+                    talk(f"Sorry, I couldn't find the app: {app_name}")
+            else:
+                talk("Sorry, opening applications is only supported on macOS, Windows, and Linux systems.")
         elif 'website' in command:
             # Open a website in the default web browser based on the user's request
             web_page = command.replace('website', '').strip()

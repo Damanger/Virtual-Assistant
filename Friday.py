@@ -21,7 +21,9 @@ def take_command():
     try:
         with sr.Microphone() as source:
             print('listening...')
-            voice = listener.listen(source)
+            # Set the timeout for listening to 3 seconds
+            listener.adjust_for_ambient_noise(source, duration=1)
+            voice = listener.listen(source, timeout=5)
             command = listener.recognize_google(voice).lower()
             if 'friday' in command:
                 # Remove the assistant's name from the command to improve recognition
@@ -50,18 +52,21 @@ def run_friday():
         if command.startswith('play'):
             # Play a song on YouTube based on the user's request
             song = command.replace('play', '').strip()
-            talk('playing ' + song)
+            talk('playing ' + song + ' on YoutTube')
             pywhatkit.playonyt(song)
-        elif 'time' in command:
+        elif 'what time is it' in command:
             # Get the current time and tell the user
             time = datetime.datetime.now().strftime('%I:%M %p')
             talk('Current time is ' + time)
         elif command.startswith('who is'):
             # Get a summary of a person from Wikipedia based on the user's request
             person = command.replace('who is', '').strip()
-            info = wikipedia.summary(person, 1)
-            print(info)
-            talk(info)
+            try:
+                info = wikipedia.summary(person, 1)
+                print(info)
+                talk(info)
+            except wikipedia.exceptions.PageError:
+                talk(f"Sorry, I couldn't find information about {person} on Wikipedia.")
         elif 'are you single' in command:
             # Humorous response to a funny question
             talk('I am in a relationship with wifi')
@@ -71,7 +76,6 @@ def run_friday():
         elif command.startswith('open'):
             app_name = command.replace('open', '').strip()
             talk(f"Opening {app_name}")
-
             if platform.system() == 'Darwin':  # macOS
                 try:
                     subprocess.Popen(['open', '-a', app_name])
@@ -100,7 +104,43 @@ def run_friday():
             search_query = command.replace('search', '').strip()
             talk(f"Searching for {search_query} on Google.")
             pywhatkit.search(search_query)
-        elif command == "bye-bye":
+        elif command.startswith('close'):
+            app_name = command.replace('close', '').strip()
+            talk(f"Closing {app_name}")
+            if platform.system() == 'Darwin':  # macOS
+                try:
+                    subprocess.Popen(['osascript', '-e', f'quit app "{app_name}"'])
+                except FileNotFoundError:
+                    talk(f"Sorry, I couldn't find the app: {app_name}")
+            elif platform.system() == 'Windows':
+                try:
+                    subprocess.Popen(['taskkill', '/f', '/im', app_name + '.exe'])
+                except FileNotFoundError:
+                    talk(f"Sorry, I couldn't find the app: {app_name}")
+            elif platform.system() == 'Linux':
+                try:
+                    subprocess.Popen(['pkill', app_name])
+                except FileNotFoundError:
+                    talk(f"Sorry, I couldn't find the app: {app_name}")
+            else:
+                talk("Sorry, closing applications is only supported on macOS, Windows, and Linux systems.")
+        elif 'turn off computer' in command:
+            # Check if the command to turn off the computer is given
+            talk("Are you sure you want to turn off the computer?")
+            confirm_command = take_command()
+            if 'yes' in confirm_command:
+                talk("Shutting down the computer. Goodbye!")
+                # The code below will shut down the computer, so use with caution!
+                if platform.system() == 'Windows':
+                    os.system("shutdown /s /t 1")
+                elif platform.system() == 'Darwin' or platform.system() == 'Linux':
+                    os.system("sudo shutdown -h now")
+                else:
+                    talk("Sorry, shutting down the computer is only supported on macOS, Windows, and Linux systems.")
+                break
+            else:
+                talk("Cancelled the shutdown.")
+        elif command == "bye":
             # End the conversation with a farewell message
             talk("Bye Master")
             break

@@ -1,49 +1,51 @@
-To run the code successfully, you'll need the following dependencies and prerequisites:
+To run the provided code on macOS, Linux, and Windows, you will need to have Python installed on your system, as the code is written in Python. Additionally, you will need to install some Python libraries to use the functionalities in the code. Here's a step-by-step guide on what you need:
 
-1. Python: Make sure you have Python installed on your computer. You can download the latest version from the official website: https://www.python.org/downloads/
+1. Python:
+   Make sure you have Python installed on your system. You can check if Python is installed by opening a terminal/command prompt and typing `python --version`. If Python is not installed, you can download the latest version from the official Python website (https://www.python.org/downloads/) and follow the installation instructions for your operating system.
 
-2. Required Python packages:
-   - `speech_recognition`: Used for speech recognition. Install it using `pip`:
+2. Required Python Libraries:
+   Open a terminal/command prompt and use the following commands to install the required Python libraries:
+
+   - SpeechRecognition:
      ```
      pip install SpeechRecognition
      ```
-   - `gtts`: Used to convert text to speech. Install it using `pip`:
+
+   - gTTS (Google Text-to-Speech):
      ```
      pip install gtts
      ```
-   - `pyttsx3`: Used as an alternative for text-to-speech. Install it using `pip`:
-     ```
-     pip install pyttsx3
-     ```
-   - `wikipedia`: Used to fetch information from Wikipedia. Install it using `pip`:
+
+   - wikipedia:
      ```
      pip install wikipedia-api
      ```
-   - `pyjokes`: Used to generate random jokes. Install it using `pip`:
+
+   - pyjokes:
      ```
      pip install pyjokes
      ```
-   - `pywhatkit`: Used to interact with YouTube and perform web searches. Install it using `pip`:
+
+   - pywhatkit:
      ```
      pip install pywhatkit
      ```
 
-3. Platform-specific libraries:
-   - macOS:
-     - `afplay` for playing audio. It is typically pre-installed on macOS, so no additional installation is required.
+   Note: The `wikipedia` library has changed its name to `wikipedia-api`, so make sure you install the correct library.
 
-   - Windows:
-     - The `start` command for opening applications should be available by default on Windows.
+3. Additional requirements for macOS:
+   For macOS, the code uses the `afplay` command to play the generated speech. Fortunately, macOS comes with this command pre-installed, so no additional setup is required.
 
-   - Linux:
-     - `xdg-open` for opening applications. It should be available by default on most Linux distributions.
+4. Additional requirements for Windows:
+   For Windows, the code uses the `start` command to open applications and the `taskkill` command to close applications. These commands are available by default on Windows, so no additional setup is required.
 
-4. Microphone: Ensure you have a working microphone connected to your computer if you want to interact with the assistant using voice commands.
+5. Additional requirements for Linux:
+   For Linux, the code uses the `xdg-open` command to open applications and the `pkill` command to close applications. These commands are usually available by default on most Linux distributions, so no additional setup is required.
 
-Once you have Python and the required packages installed, and you have verified that your microphone is working, you can execute the script. Save the code into a Python file (e.g., `friday_assistant.py`), and then run it using the following command in the terminal or command prompt:
+Once you have installed Python and the required libraries, you can save the code in a Python file (e.g., `friday_assistant.py`) and run it by opening a terminal/command prompt, navigating to the directory containing the file, and executing the command:
 
 ```
 python friday_assistant.py
 ```
 
-The script will start the assistant, and you can interact with it using the specified voice commands. Please note that the code uses Google's speech recognition service, so make sure you have an active internet connection during its operation.
+After executing the command, the assistant will start, and you can interact with it using your voice commands. Remember that for voice commands to work, you need to have a working microphone connected to your computer.

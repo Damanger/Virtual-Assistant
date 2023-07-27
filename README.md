@@ -1,51 +1,24 @@
-To run the provided code on macOS, Linux, and Windows, you will need to have Python installed on your system, as the code is written in Python. Additionally, you will need to install some Python libraries to use the functionalities in the code. Here's a step-by-step guide on what you need:
+To run this code on macOS, Linux, and Windows, you need to have the following software and libraries installed:
 
-1. Python:
-   Make sure you have Python installed on your system. You can check if Python is installed by opening a terminal/command prompt and typing `python --version`. If Python is not installed, you can download the latest version from the official Python website (https://www.python.org/downloads/) and follow the installation instructions for your operating system.
+1. Python: Make sure you have Python installed on your system. You can download the latest version of Python from the official website: https://www.python.org/downloads/
 
-2. Required Python Libraries:
-   Open a terminal/command prompt and use the following commands to install the required Python libraries:
+2. Required Python packages: Install the required Python packages using pip. Open a terminal or command prompt and run the following commands:
 
-   - SpeechRecognition:
-     ```
-     pip install SpeechRecognition
-     ```
-
-   - gTTS (Google Text-to-Speech):
-     ```
-     pip install gtts
-     ```
-
-   - wikipedia:
-     ```
-     pip install wikipedia-api
-     ```
-
-   - pyjokes:
-     ```
-     pip install pyjokes
-     ```
-
-   - pywhatkit:
-     ```
-     pip install pywhatkit
-     ```
-
-   Note: The `wikipedia` library has changed its name to `wikipedia-api`, so make sure you install the correct library.
-
-3. Additional requirements for macOS:
-   For macOS, the code uses the `afplay` command to play the generated speech. Fortunately, macOS comes with this command pre-installed, so no additional setup is required.
-
-4. Additional requirements for Windows:
-   For Windows, the code uses the `start` command to open applications and the `taskkill` command to close applications. These commands are available by default on Windows, so no additional setup is required.
-
-5. Additional requirements for Linux:
-   For Linux, the code uses the `xdg-open` command to open applications and the `pkill` command to close applications. These commands are usually available by default on most Linux distributions, so no additional setup is required.
-
-Once you have installed Python and the required libraries, you can save the code in a Python file (e.g., `friday_assistant.py`) and run it by opening a terminal/command prompt, navigating to the directory containing the file, and executing the command:
-
-```
-python friday_assistant.py
+```bash
+pip install speechrecognition
+pip install gtts
+pip install wikipedia-api
+pip install pyjokes
+pip install pywhatkit
+pip install openai
 ```
 
-After executing the command, the assistant will start, and you can interact with it using your voice commands. Remember that for voice commands to work, you need to have a working microphone connected to your computer.
+3. OpenAI API Key: Before running the code, you need to get an API key from OpenAI. Visit the OpenAI website (https://openai.com) and sign up to get your API key. Replace `'YOUR_OPENAI_API_KEY'` in the code with your actual API key.
+
+Once you have Python and the required packages installed and the API key ready, you can save the code to a file (e.g., `friday.py`) and run it from the terminal or command prompt using the following command:
+
+```bash
+python friday.py
+```
+
+Please note that this code uses platform-specific commands (`subprocess.Popen()`) to open and close applications and turn off the computer. Make sure to use these features responsibly and test them carefully on your system before regular usage. The shutdown command, in particular, should be used with caution as it can shut down the computer immediately without further confirmation.

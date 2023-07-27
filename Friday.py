@@ -8,7 +8,10 @@ import datetime
 import webbrowser
 import subprocess
 import platform
+import openai
 
+# Initialize the OpenAI API with your API key
+openai.api_key = 'YOUR_OPENAI_API_KEY'  # Replace 'YOUR_OPENAI_API_KEY' with your actual API key
 listener = sr.Recognizer()
 
 def talk(text):
@@ -16,6 +19,15 @@ def talk(text):
     tts = gTTS(text=text, lang='en')
     tts.save('output.mp3')
     os.system('afplay output.mp3')
+
+def chat_gpt(prompt):
+    # Function to interact with ChatGPT using the prompt and get a response
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=150
+    )
+    return response.choices[0].text.strip()
 
 def take_command():
     try:
@@ -58,6 +70,14 @@ def run_friday():
             # Get the current time and tell the user
             time = datetime.datetime.now().strftime('%I:%M %p')
             talk('Current time is ' + time)
+        elif command.startswith('chat'):
+            # Get the user query after "chat"
+            query = command.replace('chat', '').strip()
+            talk("Let me find that for you.")
+            # Use ChatGPT to get a response to the user query
+            response = chat_gpt(query)
+            print(response)
+            talk(response)
         elif command.startswith('who is'):
             # Get a summary of a person from Wikipedia based on the user's request
             person = command.replace('who is', '').strip()
